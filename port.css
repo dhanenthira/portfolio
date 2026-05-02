@@ -229,6 +229,8 @@ footer{padding:40px clamp(24px,6vw,80px);border-top:1px solid var(--border);disp
   #contact{gap:32px}
   footer{flex-direction:column;align-items:flex-start;padding:30px 20px;gap:20px}
   .form-card{padding:24px}
+  #intro-overlay{padding:0 20px;text-align:center}
+  .intro-tagline{text-align:center;line-height:1.5}
 }
 @media(max-width:400px){
   #projects .projects-grid{grid-template-columns:1fr}

@@ -209,31 +209,115 @@ footer{padding:40px clamp(24px,6vw,80px);border-top:1px solid var(--border);disp
 /* SCRAMBLE */
 .scramble{display:inline-block}
 
+/* ── HAMBURGER BUTTON ── */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;z-index:101;flex-direction:column;gap:5px;width:32px}
+.hamburger span{display:block;width:100%;height:2px;background:var(--text);border-radius:2px;transition:transform .3s,opacity .3s}
+.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ── MOBILE NAV OVERLAY ── */
+.mobile-nav-overlay{position:fixed;inset:0;z-index:99;background:rgba(10,10,11,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.mobile-nav-overlay.open{opacity:1;pointer-events:all}
+.mobile-nav-inner{display:flex;flex-direction:column;align-items:center;gap:28px}
+.mobile-nav-link{font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,5vw,2.4rem);color:var(--text);text-decoration:none;letter-spacing:-.02em;opacity:.85;transition:opacity .2s,color .2s}
+.mobile-nav-link:hover,.mobile-nav-link:active{opacity:1;color:var(--accent)}
+.mobile-nav-cta{margin-top:16px;background:var(--accent);color:#0a0a0b;padding:14px 40px;border-radius:100px;font-size:1rem;font-weight:700;text-decoration:none;letter-spacing:.04em;transition:transform .2s,box-shadow .2s}
+
+/* ── TOUCH DEVICE: disable custom cursor ── */
+@media(hover:none) and (pointer:coarse){
+  body{cursor:auto}
+  #cursor,#cursor-ring{display:none!important}
+  .tilt-card{cursor:pointer}
+}
+
+/* ── TABLET ≤ 900px ── */
 @media(max-width:900px){
-  #hero{grid-template-columns:1fr;padding-top:100px}
-  .hero-visual{display:none}
+  #hero{grid-template-columns:1fr;padding-top:100px;gap:40px}
+  .hero-visual{justify-content:center}
+  .tilt-card{width:260px;height:320px}
+  .float-badge{right:-8px;font-size:.62rem;padding:5px 12px}
   #contact{grid-template-columns:1fr;gap:48px}
   #stats{flex-wrap:wrap}
-  .stat{min-width:150px}
+  .stat{min-width:calc(50% - 1px);border-bottom:1px solid var(--border)}
+  .stat:nth-child(odd):last-child{min-width:100%}
   .form-row{grid-template-columns:1fr}
   .experience-layout{grid-template-columns:1fr}
-  .experience-photo{display:none}
+  .experience-photo{width:100%;max-width:320px;margin:0 auto}
+  .exp-photo-frame img{height:320px}
 }
+
+/* ── MOBILE ≤ 640px ── */
 @media(max-width:640px){
   .nav-links{display:none}
-  section{padding:80px 20px}
-  #hero{padding:100px 20px 60px}
-  #stats{padding:30px 20px}
-  .stat-num{font-size:2.2rem}
-  .skill-card{width:280px;padding:20px}
-  #contact{gap:32px}
-  footer{flex-direction:column;align-items:flex-start;padding:30px 20px;gap:20px}
-  .form-card{padding:24px}
+  .nav-cta{display:none}
+  .hamburger{display:flex}
+  nav{padding:16px 20px}
+
+  section{padding:60px 20px}
+  #hero{padding:90px 20px 40px;text-align:center}
+  .hero-content{display:flex;flex-direction:column;align-items:center}
+  .hero-title{font-size:clamp(2rem,8vw,3rem)}
+  .hero-desc{text-align:center;font-size:.92rem;margin-bottom:28px}
+  .hero-actions{justify-content:center}
+  .btn-primary,.btn-ghost{padding:12px 24px;font-size:.82rem}
+
+  .hero-visual{margin-top:10px}
+  .tilt-card{width:220px;height:280px}
+  .card-name{font-size:1.1rem}
+  .card-role{font-size:.62rem}
+  .card-info{padding:18px}
+  .float-badge{top:14px;right:-6px;font-size:.58rem;padding:4px 10px}
+
+  #stats{padding:20px;gap:0;display:grid;grid-template-columns:1fr 1fr}
+  .stat{padding:18px 16px;border-right:none;border-bottom:1px solid var(--border)}
+  .stat:nth-child(odd){border-right:1px solid var(--border)}
+  .stat:nth-last-child(-n+2){border-bottom:none}
+  .stat-num{font-size:1.8rem}
+  .stat-label{font-size:.7rem}
+
+  .section-title{font-size:clamp(1.6rem,5vw,2.2rem)}
+  .section-sub{font-size:.88rem;margin-bottom:36px}
+
+  .skill-card{width:260px;padding:18px}
+  .skill-card-pill{padding:6px 12px;font-size:.78rem}
+
+  #projects .projects-grid{grid-template-columns:1fr;gap:20px}
+  .project-card{height:300px}
+  /* Tap to flip on touch */
+  .project-card.tapped .project-card-inner{transform:rotateY(180deg)}
+
+  .experience-photo{display:none}
+
+  #contact{gap:28px}
+  .contact-link-val{font-size:.78rem}
+  .form-card{padding:20px}
+  .form-title{font-size:1.2rem}
+
+  footer{flex-direction:column;align-items:center;text-align:center;padding:30px 20px;gap:16px}
+
   #intro-overlay{padding:0 20px;text-align:center}
   .intro-tagline{text-align:center;line-height:1.5}
+
+  /* Toast on mobile */
+  #toast{font-size:.78rem;padding:12px 20px;bottom:20px}
 }
+
+/* ── SMALL MOBILE ≤ 400px ── */
 @media(max-width:400px){
-  #projects .projects-grid{grid-template-columns:1fr}
+  #hero{padding:80px 16px 32px}
+  .hero-title{font-size:1.8rem}
+  .hero-desc{font-size:.85rem}
+  .btn-primary,.btn-ghost{padding:11px 20px;font-size:.78rem}
+  .tilt-card{width:190px;height:240px}
+  .card-info{padding:14px}
+  .card-name{font-size:.95rem}
+  .stat-num{font-size:1.5rem}
+  .skill-card{width:230px;padding:16px}
+  .project-card{height:270px}
+  .section-title{font-size:1.4rem}
+  .form-card{padding:16px}
+  footer{padding:24px 16px}
 }
 
 /* ── PAGE TRANSITION OVERLAY ── */

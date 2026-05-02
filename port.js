@@ -260,3 +260,48 @@ btn.addEventListener('click',()=>{
     console.error('Contact form error:', err);
   });
 });
+
+// ── HAMBURGER MENU ──
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobile-nav-overlay');
+if(hamburger && mobileNav){
+  hamburger.addEventListener('click', ()=>{
+    hamburger.classList.toggle('active');
+    mobileNav.classList.toggle('open');
+    document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+  });
+  mobileNav.querySelectorAll('a').forEach(link=>{
+    link.addEventListener('click', (e)=>{
+      e.preventDefault();
+      hamburger.classList.remove('active');
+      mobileNav.classList.remove('open');
+      document.body.style.overflow = '';
+      const href = link.getAttribute('href');
+      if(href && href.startsWith('#')){
+        const target = document.querySelector(href);
+        if(target) setTimeout(()=> target.scrollIntoView({behavior:'smooth'}), 300);
+      }
+    });
+  });
+}
+
+// ── TAP TO FLIP (touch devices) ──
+if('ontouchstart' in window || navigator.maxTouchPoints > 0){
+  document.querySelectorAll('.project-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      document.querySelectorAll('.project-card.tapped').forEach(c=>{
+        if(c !== card) c.classList.remove('tapped');
+      });
+      card.classList.toggle('tapped');
+    });
+  });
+}
+
+// ── HIDE CUSTOM CURSOR ON TOUCH ──
+if('ontouchstart' in window || navigator.maxTouchPoints > 0){
+  document.body.style.cursor = 'auto';
+  const c = document.getElementById('cursor');
+  const cr = document.getElementById('cursor-ring');
+  if(c) c.style.display = 'none';
+  if(cr) cr.style.display = 'none';
+}

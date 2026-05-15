@@ -95,9 +95,10 @@ section{padding:100px clamp(24px,6vw,80px);position:relative;z-index:1}
 .divider{border:none;border-top:1px solid var(--border);position:relative;z-index:1}
 
 /* SKILLS - Horizontal Marquee Cards */
-.skills-marquee-wrap{overflow:hidden;position:relative;width:100%;padding:20px 0;mask-image:linear-gradient(to right,transparent,black 5%,black 95%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 5%,black 95%,transparent)}
-.skills-marquee-track{display:flex;gap:24px;width:max-content;animation:marquee-reverse 35s linear infinite}
-.skills-marquee-track:hover{animation-play-state:paused}
+.skills-marquee-wrap{overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;cursor:grab;position:relative;width:100%;padding:20px 0;mask-image:linear-gradient(to right,transparent,black 5%,black 95%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 5%,black 95%,transparent)}
+.skills-marquee-wrap:active{cursor:grabbing;}
+.skills-marquee-wrap::-webkit-scrollbar{display:none;}
+.skills-marquee-track{display:flex;gap:24px;width:max-content;user-select:none;}
 .skill-card:nth-child(3n+1){--theme:#5af0d0;--theme-glow:rgba(90,240,208,0.15);--theme-glow-hover:rgba(90,240,208,0.35)}
 .skill-card:nth-child(3n+2){--theme:#c8f560;--theme-glow:rgba(200,245,96,0.15);--theme-glow-hover:rgba(200,245,96,0.35)}
 .skill-card:nth-child(3n+3){--theme:#f560a6;--theme-glow:rgba(245,96,166,0.15);--theme-glow-hover:rgba(245,96,166,0.35)}
@@ -287,7 +288,7 @@ footer{padding:40px clamp(24px,6vw,80px);border-top:1px solid var(--border);disp
   /* Tap to flip on touch */
   .project-card.tapped .project-card-inner{transform:rotateY(180deg)}
 
-  .experience-photo{display:none}
+  .experience-photo{margin-top:24px;}
 
   #contact{gap:28px}
   .contact-link-val{font-size:.78rem}

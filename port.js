@@ -305,3 +305,91 @@ if('ontouchstart' in window || navigator.maxTouchPoints > 0){
   if(c) c.style.display = 'none';
   if(cr) cr.style.display = 'none';
 }
+
+// ── SKILLS MARQUEE DRAG & AUTO-SCROLL ──
+const skillsWrap = document.querySelector('.skills-marquee-wrap');
+const skillsTrack = document.querySelector('.skills-marquee-track');
+
+if (skillsWrap && skillsTrack) {
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+  let isHovered = false;
+  let speed = 0.5; // auto-scroll speed
+
+  // Initialize scroll position to the middle to allow infinite loop
+  setTimeout(() => {
+    skillsWrap.scrollLeft = skillsTrack.scrollWidth / 2;
+    autoScroll();
+  }, 100);
+
+  function autoScroll() {
+    if (!isDown && !isHovered) {
+      skillsWrap.scrollLeft -= speed;
+      // Loop back when reaching the start
+      if (skillsWrap.scrollLeft <= 0) {
+        skillsWrap.scrollLeft = skillsTrack.scrollWidth / 2;
+      }
+    }
+    requestAnimationFrame(autoScroll);
+  }
+
+  skillsWrap.addEventListener('mouseenter', () => isHovered = true);
+  skillsWrap.addEventListener('mouseleave', () => {
+    isHovered = false;
+    isDown = false;
+  });
+
+  skillsWrap.addEventListener('mousedown', (e) => {
+    isDown = true;
+    startX = e.pageX - skillsWrap.offsetLeft;
+    scrollLeft = skillsWrap.scrollLeft;
+  });
+
+  skillsWrap.addEventListener('mouseup', () => {
+    isDown = false;
+  });
+
+  skillsWrap.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - skillsWrap.offsetLeft;
+    const walk = (x - startX) * 1.5; // drag multiplier
+    skillsWrap.scrollLeft = scrollLeft - walk;
+    
+    // Infinite loop handling during drag
+    if (skillsWrap.scrollLeft <= 0) {
+      skillsWrap.scrollLeft += skillsTrack.scrollWidth / 2;
+      scrollLeft += skillsTrack.scrollWidth / 2;
+    } else if (skillsWrap.scrollLeft >= skillsTrack.scrollWidth / 2) {
+      skillsWrap.scrollLeft -= skillsTrack.scrollWidth / 2;
+      scrollLeft -= skillsTrack.scrollWidth / 2;
+    }
+  });
+
+  // Touch support
+  skillsWrap.addEventListener('touchstart', (e) => {
+    isDown = true;
+    startX = e.touches[0].pageX - skillsWrap.offsetLeft;
+    scrollLeft = skillsWrap.scrollLeft;
+  }, {passive: true});
+
+  skillsWrap.addEventListener('touchend', () => {
+    isDown = false;
+  });
+
+  skillsWrap.addEventListener('touchmove', (e) => {
+    if (!isDown) return;
+    const x = e.touches[0].pageX - skillsWrap.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    skillsWrap.scrollLeft = scrollLeft - walk;
+    
+    if (skillsWrap.scrollLeft <= 0) {
+      skillsWrap.scrollLeft += skillsTrack.scrollWidth / 2;
+      scrollLeft += skillsTrack.scrollWidth / 2;
+    } else if (skillsWrap.scrollLeft >= skillsTrack.scrollWidth / 2) {
+      skillsWrap.scrollLeft -= skillsTrack.scrollWidth / 2;
+      scrollLeft -= skillsTrack.scrollWidth / 2;
+    }
+  }, {passive: true});
+}
